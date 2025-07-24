@@ -99,17 +99,18 @@ else:
 
 # Manually specify each image path (update to your actual file paths)
 image_files = [
-    Path("WhatsApp Image 2025-07-24 at 9.42.52 AM (1).jpeg"),
-    Path("WhatsApp Image 2025-07-24 at 9.42.52 AM (2).jpeg"),
-    Path("\WhatsApp Image 2025-07-24 at 9.42.52 AM.jpeg"),
-    Path("WhatsApp Image 2025-07-24 at 9.42.53 AM (1).jpeg"),
-    Path("WhatsApp Image 2025-07-24 at 9.42.53 AM (2).jpeg"),
-    Path("WhatsApp Image 2025-07-24 at 9.42.53 AM.jpeg"),
-    Path("WhatsApp Image 2025-07-24 at 9.42.54 AM (1).jpeg"),
-    Path("WhatsApp Image 2025-07-24 at 9.42.54 AM (2).jpeg"),
-    Path("WhatsApp Image 2025-07-24 at 9.42.54 AM.jpeg"),
-    Path("WhatsApp Image 2025-07-24 at 9.43.41 AM.jpeg")
+    Path(r"WhatsApp Image 2025-07-24 at 9.42.52 AM (1).jpeg"),
+    Path(r"WhatsApp Image 2025-07-24 at 9.42.52 AM (2).jpeg"),
+    Path(r"WhatsApp Image 2025-07-24 at 9.42.52 AM.jpeg"),  # FIXED
+    Path(r"WhatsApp Image 2025-07-24 at 9.42.53 AM (1).jpeg"),
+    Path(r"WhatsApp Image 2025-07-24 at 9.42.53 AM (2).jpeg"),
+    Path(r"WhatsApp Image 2025-07-24 at 9.42.53 AM.jpeg"),
+    Path(r"WhatsApp Image 2025-07-24 at 9.42.54 AM (1).jpeg"),
+    Path(r"WhatsApp Image 2025-07-24 at 9.42.54 AM (2).jpeg"),
+    Path(r"WhatsApp Image 2025-07-24 at 9.42.54 AM.jpeg"),
+    Path(r"WhatsApp Image 2025-07-24 at 9.43.41 AM.jpeg")
 ]
+
 if not image_files:
     st.error("🖼️ No JPEG images found in the 'assets' folder.")
 else:
