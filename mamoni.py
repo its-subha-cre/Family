@@ -25,7 +25,7 @@ def set_background(image_file):
 st.set_page_config(page_title="🎉 Happy Birthday Mamoni 🎂", layout="centered")
 
 # Set background
-set_background(r"C:\Users\subha\Downloads\assets\bday2.jpg")
+set_background("bday2.jpg")
 
 
 
@@ -87,7 +87,7 @@ balloon_animation = """
 """
 
 st.markdown(balloon_animation, unsafe_allow_html=True)
-audio_path = Path(r"C:\Users\subha\Downloads\assets\Happy Birthday Mamoni (1).mp3")
+audio_path = Path("Happy Birthday Mamoni (1).mp3")
 if audio_path.exists():
     with open(audio_path, "rb") as audio_file:
         st.audio(audio_file.read(), format="audio/mp3")
@@ -95,9 +95,21 @@ else:
     st.warning("🎵 Birthday song not found in 'assets'.")
 
 # --- Slideshow of JPEG Images ---
-image_folder = Path(r"C:\Users\subha\Downloads\assets")
-image_files = sorted(image_folder.glob("*.jpeg"))
 
+
+# Manually specify each image path (update to your actual file paths)
+image_files = [
+    Path("WhatsApp Image 2025-07-24 at 9.42.52 AM (1).jpeg"),
+    Path("WhatsApp Image 2025-07-24 at 9.42.52 AM (2).jpeg"),
+    Path("\WhatsApp Image 2025-07-24 at 9.42.52 AM.jpeg"),
+    Path("WhatsApp Image 2025-07-24 at 9.42.53 AM (1).jpeg"),
+    Path("WhatsApp Image 2025-07-24 at 9.42.53 AM (2).jpeg"),
+    Path("WhatsApp Image 2025-07-24 at 9.42.53 AM.jpeg"),
+    Path("WhatsApp Image 2025-07-24 at 9.42.54 AM (1).jpeg"),
+    Path("WhatsApp Image 2025-07-24 at 9.42.54 AM (2).jpeg"),
+    Path("WhatsApp Image 2025-07-24 at 9.42.54 AM.jpeg"),
+    Path("WhatsApp Image 2025-07-24 at 9.43.41 AM.jpeg")
+]
 if not image_files:
     st.error("🖼️ No JPEG images found in the 'assets' folder.")
 else:
