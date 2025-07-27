@@ -2,6 +2,8 @@ import streamlit as st
 import time
 from pathlib import Path
 import base64
+import folium
+from streamlit_folium import st_folium
 
 # --- Background Image ---
 def set_background(image_file):
@@ -23,11 +25,44 @@ def set_background(image_file):
 st.set_page_config(page_title="🎉 Happy Birthday Mamoni 🎂", layout="centered")
 set_background("bday3.jpg")
 
-# --- Title ---
+# --- Title and Birth Info ---
 st.title("🎂 Happy Birthday Mamoni! 🎉")
 st.markdown("এই বিশেষ দিনটি ভালোবাসা, আনন্দ আর আশীর্বাদে ভরে উঠুক। আমরা তোমার জন্য গর্বিত ও কৃতজ্ঞ। 💐❤️")
 
-# --- Ribbon Corners ---
+from datetime import datetime, timedelta
+
+# --- Birthday Info ---
+st.markdown("""
+<h3 style='text-align: center; color: #ff69b4; font-weight: bold;'>
+🕘 জন্মের সময়: রাত ৯টা, শুক্রবার, ২৮ জুলাই ১৯৭২
+</h3>
+""", unsafe_allow_html=True)
+
+# --- Countdown to Next Birthday ---
+today = datetime.now()
+current_year = today.year
+next_birthday = datetime(current_year, 7, 28, 21)  # 28 July at 9 PM
+
+# If birthday this year has passed, set it for next year
+if today > next_birthday:
+    next_birthday = datetime(current_year + 1, 7, 28, 21)
+
+# Calculate time difference
+time_remaining = next_birthday - today
+days = time_remaining.days
+hours, rem = divmod(time_remaining.seconds, 3600)
+minutes, seconds = divmod(rem, 60)
+
+# Display the countdown
+st.markdown(f"""
+<div style='text-align: center; font-size: 20px; color: #f63366; margin-top: -10px;'>
+🎉 <b>🎉 জন্মের সময় বাকি:</b><br>
+🗓️ {days} দিন {hours} ঘন্টা {minutes} মিনিট {seconds} সেকেন্ড ⏳
+</div>
+""", unsafe_allow_html=True)
+
+
+# --- Ribbons in Corners ---
 st.markdown("""
 <style>
 .ribbon-wrap { position: fixed; z-index: 9999; pointer-events: none; }
@@ -116,11 +151,40 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+# --- Map Section ---
+st.subheader("📌 তোমার জন্মস্থান")
+
+m = folium.Map(location=[22.5048, 87.4610], zoom_start=10, control_scale=True)
+
+folium.Marker([22.5046, 87.4604], popup="Paschim Medinipur Tolkua", tooltip="Paschim Medinipur Tolkua",
+              icon=folium.Icon(color="red", icon="heart")).add_to(m)
+
+with st.container():
+    st_folium(m, use_container_width=True, height=700)
+
+st.markdown("""
+<style>
+iframe[title="streamlit_folium.st_folium"] {
+    height: 700px !important;
+    width: 100% !important;
+    border: none;
+}
+@media only screen and (max-width: 600px) {
+    iframe[title="streamlit_folium.st_folium"] {
+        height: 600px !important;
+    }
+}
+</style>
+""", unsafe_allow_html=True)
+
 # --- Birthday Song ---
-audio_path = Path("Happy Birthday Mamoni (1).mp3")
+st.header("তোমার জন্য একটা গান")
+audio_path = Path("আজকের এই দিনটা শুধু তোমার, (1).mp3")
 if audio_path.exists():
     with open(audio_path, "rb") as f:
         st.audio(f.read(), format="audio/mp3")
+else:
+    st.warning("🎵 Birthday song not found!")
 
 # --- Session State ---
 if "slideshow_played" not in st.session_state:
@@ -129,6 +193,7 @@ if "show_letter" not in st.session_state:
     st.session_state.show_letter = False
 
 # --- Slideshow ---
+st.subheader("তোমার কিছু হারিয়ে যাওয়া ছবি")
 image_files = [
     Path(f"WhatsApp Image 2025-07-24 at 9.42.52 AM ({i}).jpeg") for i in range(1, 3)
 ] + [
@@ -145,11 +210,10 @@ image_files = [
 if not st.session_state.slideshow_played:
     ph = st.empty()
     for img in image_files:
-        ph.image(str(img), use_container_width=True, caption=f"❤️ Mamoni - {img.stem}")
+        ph.image(str(img), use_container_width=True, caption=f"❤️ Mamoni – {img.name}")
         time.sleep(3)
     st.session_state.slideshow_played = True
-
-# --- Message Button After Slideshow ---
+# --- Letter Trigger ---
 if st.session_state.slideshow_played and not st.session_state.show_letter:
     st.markdown("""
     <style>
@@ -180,11 +244,10 @@ if st.session_state.slideshow_played and not st.session_state.show_letter:
         submitted = st.form_submit_button("Click to open message")
         if submitted:
             st.session_state.show_letter = True
+            st.rerun()
 
-
-# --- Show Letter ---
+# --- Birthday Letter ---
 if st.session_state.show_letter:
-    # Confetti
     st.markdown("""
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script>
@@ -192,10 +255,6 @@ if st.session_state.show_letter:
     </script>
     """, unsafe_allow_html=True)
 
-    # Optional: Page Flip Sound
-    
-
-    # Letter
     st.markdown("""
     <div style="
         background-color: #fff8dc; 
@@ -216,8 +275,6 @@ if st.session_state.show_letter:
         প্রতিটা মুহূর্ত তোমার মুখের হাসিতে ভরে উঠুক, আর আগামী দিনগুলো হোক আশীর্বাদময় ও শান্তিময়।<br><br>
         ❤️ ভালোবাসা ও শ্রদ্ধা সহ,<br>
         তোমার মানি 💖
-
-
-</div>
     </div>
     """, unsafe_allow_html=True)
+st.caption("Made with ❤️ love by [Mani ❤️]")
