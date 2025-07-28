@@ -154,24 +154,43 @@ st.markdown("""
 # --- Map Section ---
 st.subheader("📌 তোমার জন্মস্থান")
 
+import streamlit as st
+from streamlit_folium import st_folium
+import folium
+
+# Create Folium map
 m = folium.Map(location=[22.5048, 87.4610], zoom_start=10, control_scale=True)
 
-folium.Marker([22.5046, 87.4604], popup="Paschim Medinipur Tolkua", tooltip="Paschim Medinipur Tolkua",
-              icon=folium.Icon(color="red", icon="heart")).add_to(m)
+# Add marker
+folium.Marker(
+    [22.5046, 87.4604],
+    popup="Paschim Medinipur Tolkua",
+    tooltip="Paschim Medinipur Tolkua",
+    icon=folium.Icon(color="red", icon="heart")
+).add_to(m)
 
+# Display map in container with default responsive width
 with st.container():
-    st_folium(m, use_container_width=True, height=700)
+    st_folium(m, use_container_width=True, height=500)
 
+# Custom CSS for mobile and desktop responsiveness
 st.markdown("""
 <style>
+/* Desktop style */
 iframe[title="streamlit_folium.st_folium"] {
-    height: 700px !important;
-    width: 100% !important;
+    height: 500px !important;
+    width: 800px !important;
+    max-width: 100%;
     border: none;
+    margin: auto;
+    display: block;
 }
+
+/* Mobile style */
 @media only screen and (max-width: 600px) {
     iframe[title="streamlit_folium.st_folium"] {
-        height: 600px !important;
+        width: 100% !important;
+        height: 500px !important;
     }
 }
 </style>
@@ -179,7 +198,7 @@ iframe[title="streamlit_folium.st_folium"] {
 
 # --- Birthday Song ---
 st.header("তোমার জন্য একটা গান")
-audio_path = Path("আজকের এই দিনটা শুধু তোমার, (1).mp3")
+audio_path = Path("আজকের এই দিনটা শুধু তোমার,.mp3")
 if audio_path.exists():
     with open(audio_path, "rb") as f:
         st.audio(f.read(), format="audio/mp3")
