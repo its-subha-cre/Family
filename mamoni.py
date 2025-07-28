@@ -198,7 +198,7 @@ iframe[title="streamlit_folium.st_folium"] {
 
 # --- Birthday Song ---
 st.header("তোমার জন্য একটা গান")
-audio_path = Path("আজকের এই দিনটা শুধু তোমার,.mp3")
+audio_path = Path("আজকের এই দিনটা শুধু তোমার, (1).mp3")
 if audio_path.exists():
     with open(audio_path, "rb") as f:
         st.audio(f.read(), format="audio/mp3")
